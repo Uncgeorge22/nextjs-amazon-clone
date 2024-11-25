@@ -7,10 +7,14 @@ import {
   ReferenceInput,
   SelectInput,
   NumberInput,
+  ReferenceArrayInput,
+  SelectArrayInput,
   TextInput,
 } from "react-admin";
 
 import { CategoryTitle } from "../category/CategoryTitle";
+import { OrderTitle } from "../order/OrderTitle";
+import { ReviewTitle } from "../review/ReviewTitle";
 
 export const ProductCreate = (props: CreateProps): React.ReactElement => {
   return (
@@ -27,6 +31,16 @@ export const ProductCreate = (props: CreateProps): React.ReactElement => {
         <div />
         <NumberInput label="discountedPrice" source="discountedPrice" />
         <div />
+        <ReferenceInput source="order.id" reference="Order" label="orders">
+          <SelectInput optionText={OrderTitle} />
+        </ReferenceInput>
+        <ReferenceArrayInput source="reviews" reference="Review">
+          <SelectArrayInput
+            optionText={ReviewTitle}
+            parse={(value: any) => value && value.map((v: any) => ({ id: v }))}
+            format={(value: any) => value && value.map((v: any) => v.id)}
+          />
+        </ReferenceArrayInput>
         <TextInput label="title" source="title" />
         <NumberInput label="titlePrice" source="titlePrice" />
         <div />

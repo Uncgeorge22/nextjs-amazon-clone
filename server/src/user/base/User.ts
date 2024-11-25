@@ -17,8 +17,11 @@ import {
   IsOptional,
   MaxLength,
   IsBoolean,
+  ValidateNested,
 } from "class-validator";
 import { Type } from "class-transformer";
+import { Order } from "../../order/base/Order";
+import { Review } from "../../review/base/Review";
 import { IsJSONValue } from "../../validators";
 import { GraphQLJSON } from "graphql-type-json";
 import { JsonValue } from "type-fest";
@@ -86,6 +89,24 @@ class User {
     nullable: true,
   })
   lastName!: string | null;
+
+  @ApiProperty({
+    required: false,
+    type: () => [Order],
+  })
+  @ValidateNested()
+  @Type(() => Order)
+  @IsOptional()
+  orders?: Array<Order>;
+
+  @ApiProperty({
+    required: false,
+    type: () => [Review],
+  })
+  @ValidateNested()
+  @Type(() => Review)
+  @IsOptional()
+  reviews?: Array<Review>;
 
   @ApiProperty({
     required: true,

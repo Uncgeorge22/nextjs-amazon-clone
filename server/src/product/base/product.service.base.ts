@@ -10,10 +10,13 @@ https://docs.amplication.com/how-to/custom-code
 ------------------------------------------------------------------------------
   */
 import { PrismaService } from "../../prisma/prisma.service";
+
 import {
   Prisma,
   Product as PrismaProduct,
+  Review as PrismaReview,
   Category as PrismaCategory,
+  Order as PrismaOrder,
 } from "@prisma/client";
 
 export class ProductServiceBase {
@@ -41,11 +44,30 @@ export class ProductServiceBase {
     return this.prisma.product.delete(args);
   }
 
+  async findReviews(
+    parentId: string,
+    args: Prisma.ReviewFindManyArgs
+  ): Promise<PrismaReview[]> {
+    return this.prisma.product
+      .findUniqueOrThrow({
+        where: { id: parentId },
+      })
+      .reviews(args);
+  }
+
   async getCategory(parentId: string): Promise<PrismaCategory | null> {
     return this.prisma.product
       .findUnique({
         where: { id: parentId },
       })
       .category();
+  }
+
+  async getOrder(parentId: string): Promise<PrismaOrder | null> {
+    return this.prisma.product
+      .findUnique({
+        where: { id: parentId },
+      })
+      .order();
   }
 }

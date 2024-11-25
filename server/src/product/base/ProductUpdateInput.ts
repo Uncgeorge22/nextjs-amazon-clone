@@ -25,6 +25,8 @@ import { Type } from "class-transformer";
 import { IsJSONValue } from "../../validators";
 import { GraphQLJSON } from "graphql-type-json";
 import { InputJsonValue } from "../../types";
+import { OrderWhereUniqueInput } from "../../order/base/OrderWhereUniqueInput";
+import { ReviewUpdateManyWithoutProductsInput } from "./ReviewUpdateManyWithoutProductsInput";
 
 @InputType()
 class ProductUpdateInput {
@@ -82,6 +84,30 @@ class ProductUpdateInput {
     nullable: true,
   })
   images?: InputJsonValue;
+
+  @ApiProperty({
+    required: false,
+    type: () => OrderWhereUniqueInput,
+  })
+  @ValidateNested()
+  @Type(() => OrderWhereUniqueInput)
+  @IsOptional()
+  @Field(() => OrderWhereUniqueInput, {
+    nullable: true,
+  })
+  order?: OrderWhereUniqueInput | null;
+
+  @ApiProperty({
+    required: false,
+    type: () => ReviewUpdateManyWithoutProductsInput,
+  })
+  @ValidateNested()
+  @Type(() => ReviewUpdateManyWithoutProductsInput)
+  @IsOptional()
+  @Field(() => ReviewUpdateManyWithoutProductsInput, {
+    nullable: true,
+  })
+  reviews?: ReviewUpdateManyWithoutProductsInput;
 
   @ApiProperty({
     required: false,

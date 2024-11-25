@@ -17,6 +17,8 @@ import { Type } from "class-transformer";
 import { JsonFilter } from "../../util/JsonFilter";
 import { FloatFilter } from "../../util/FloatFilter";
 import { StringFilter } from "../../util/StringFilter";
+import { OrderWhereUniqueInput } from "../../order/base/OrderWhereUniqueInput";
+import { ReviewListRelationFilter } from "../../review/base/ReviewListRelationFilter";
 
 @InputType()
 class ProductWhereInput {
@@ -86,6 +88,30 @@ class ProductWhereInput {
     nullable: true,
   })
   images?: JsonFilter;
+
+  @ApiProperty({
+    required: false,
+    type: () => OrderWhereUniqueInput,
+  })
+  @ValidateNested()
+  @Type(() => OrderWhereUniqueInput)
+  @IsOptional()
+  @Field(() => OrderWhereUniqueInput, {
+    nullable: true,
+  })
+  order?: OrderWhereUniqueInput;
+
+  @ApiProperty({
+    required: false,
+    type: () => ReviewListRelationFilter,
+  })
+  @ValidateNested()
+  @Type(() => ReviewListRelationFilter)
+  @IsOptional()
+  @Field(() => ReviewListRelationFilter, {
+    nullable: true,
+  })
+  reviews?: ReviewListRelationFilter;
 
   @ApiProperty({
     required: false,
